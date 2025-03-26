@@ -9,3 +9,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("CRUD is running");
 });
+
+app.listen(port, () => {
+  console.log(`CRUD is running on port: ${port}`);
+});
