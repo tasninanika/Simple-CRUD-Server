@@ -1,14 +1,19 @@
-require("dotenv").config();
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
-const port = process.env.PORT || 5000;
+const port = process.env.port || 5000;
+require("dotenv").config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.4vcsd99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+app.get("/", (req, res) => {
+  res.send("CRUD is running");
+});
+
+const uri =
+  "mongodb+srv://jarinanika:anika123@cluster0.4vcsd99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -24,9 +29,12 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const database = client.db("usersDB");
+    const haiku = database.collection("users");
+
     app.post("/users", async (req, res) => {
       const user = req.body;
-      console.log("new user: ", user);
+      console.log("new user", user);
     });
 
     // Send a ping to confirm a successful connection
@@ -40,10 +48,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-app.get("/", (req, res) => {
-  res.send("CRUD is running");
-});
 
 app.listen(port, () => {
   console.log(`CRUD is running on port: ${port}`);
