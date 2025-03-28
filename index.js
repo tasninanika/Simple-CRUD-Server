@@ -30,11 +30,13 @@ async function run() {
     await client.connect();
 
     const database = client.db("usersDB");
-    const haiku = database.collection("users");
+    const userCollection = database.collection("users");
 
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
+      const result = await haiku.insertOne(doc);
+      res.send(result);
     });
 
     // Send a ping to confirm a successful connection
