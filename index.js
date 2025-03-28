@@ -35,7 +35,7 @@ async function run() {
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
-      const result = await haiku.insertOne(user);
+      const result = await userCollection.insertOne(user);
       res.send(result);
     });
 
